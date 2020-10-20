@@ -12,7 +12,7 @@ function computerPlay() {
  * Plays a round of rock-paper-scissors
  * @param {string} playerSelection The player's hand
  * @param {string} computerSelection The computer's hand
- * @return {string} The round result
+ * @return {string} The winner of the round (player, computer, or draw)
  */
 function playRound(playerSelection, computerSelection) {
   if (!isValidHand(playerSelection)) {
@@ -23,16 +23,28 @@ function playRound(playerSelection, computerSelection) {
 
   playerSelection = playerSelection.toLowerCase();
   if (playerSelection === computerSelection) {
-    return 'Draw!';
+    return 'draw';
   }
 
   switch (playerSelection) {
     case 'rock':
-      return determineWinnerRock(computerSelection);
+      if (determineWinnerRock(computerSelection)) {
+        return 'player';
+      } else {
+        return 'computer';
+      }
     case 'paper':
-      return determineWinnerPaper(computerSelection);
+      if (determineWinnerPaper(computerSelection)) {
+        return 'player';
+      } else {
+        return 'computer';
+      }
     case 'scissors':
-      return determineWinnerScissors(computerSelection);
+      if (determineWinnerScissors(computerSelection)) {
+        return 'player';
+      } else {
+        return 'computer';
+      }
   }
 }
 
@@ -53,38 +65,73 @@ function isValidHand(hand) {
 /**
  * Determines the winner if the player chooses Rock
  * @param {string} computerSelection The computer's hand
- * @return {string} The match result
+ * @return {boolean} True if the player wins, false otherwise
  */
 function determineWinnerRock(computerSelection) {
   if (computerSelection === 'paper') {
-    return 'You lose! Paper beats Rock!';
+    return false;
   } else if (computerSelection === 'scissors') {
-    return 'You win! Rock beats Scissors!';
+    return true;
   }
 }
 
 /**
  * Determines the winner if the player chooses Paper
  * @param {string} computerSelection The computer's hand
- * @return {string} The match result
+ * @return {boolean} True if the player wins, false otherwise
  */
 function determineWinnerPaper(computerSelection) {
   if (computerSelection === 'rock') {
-    return 'You win! Paper beats Rock!';
+    return true;
   } else if (computerSelection === 'scissors') {
-    return 'You lose! Scissors beats Paper!';
+    return false;
   }
 }
 
 /**
  * Determines the winner if the player chooses Scissors
  * @param {string} computerSelection The computer's hand
- * @return {string} The match result
+ * @return {boolean} True if the player wins, false otherwise
  */
 function determineWinnerScissors(computerSelection) {
   if (computerSelection === 'rock') {
-    return 'You lose! Rock beats Scissors!';
+    return true;
   } else if (computerSelection === 'paper') {
-    return 'You win! Scissors beats Paper!';
+    return false;
+  }
+}
+
+/**
+ * Plays 5 rounds of rock-paper-scissors
+ */
+function game() {
+  let roundsPlayed = 0;
+  let playerScore = 0;
+  let computerScore = 0;
+
+  while (roundsPlayed < 5) {
+    const playerHand = prompt('rock, paper, or scissors?');
+    const computerHand = computerPlay();
+    const result = playRound(playerHand, computerHand);
+
+    if (result === 'player') {
+      console.log(`${playerHand} beats ${computerHand}! You won this round!`);
+      playerScore++;
+    } else if (result === 'computer') {
+      console.log(`${computerHand} beats ${playerHand}! You lost this round!`);
+      computerScore++;
+    } else {
+      console.log('Round draw!');
+    }
+
+    roundsPlayed++;
+  }
+
+  if (playerScore > computerScore) {
+    console.log('You won the game!');
+  } else if (playerScore < computerScore) {
+    console.log('You lost the game!');
+  } else {
+    console.log('Game draw!');
   }
 }
