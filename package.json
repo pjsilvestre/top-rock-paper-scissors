@@ -1,0 +1,23 @@
+{
+  "name": "top-rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "A basic implementation of rock-paper-scissors as part of [The Odin Project](https://theodinproject.com/courses/web-development-101/lessons/rock-paper-scissors).",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pjsilvestre/top-rock-paper-scissors.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pjsilvestre/top-rock-paper-scissors/issues"
+  },
+  "homepage": "https://github.com/pjsilvestre/top-rock-paper-scissors#readme",
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
