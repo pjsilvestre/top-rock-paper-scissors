@@ -7,14 +7,17 @@
     href="node_modules/bootstrap/dist/css/bootstrap.min.css"
   />
 </head>
-<body>
-  <div class="container">
+<body class="container text-center p-5">
+  <p id="player-score">player: 0</p>
+  <p id="computer-score">computer: 0</p>
+  <div class="container mt-5 mb-5">
     <button type="button" class="btn btn-primary" id="rock">Rock</button>
     <button type="button" class="btn btn-primary" id="paper">Paper</button>
     <button type="button" class="btn btn-primary" id="scissors">
       Scissors
     </button>
   </div>
+  <div class="container" id="results"></div>
 
   <script src="script.js"></script>
   <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>

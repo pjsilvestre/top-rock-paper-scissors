@@ -1,3 +1,94 @@
+buttonSetup();
+
+let playerScore = 0;
+let computerScore = 0;
+
+/**
+ * Sets up the rock, paper, and scissors buttons
+ */
+function buttonSetup() {
+  const buttons = getButtons();
+
+  for (let i = 0; i < buttons.length; i++) {
+    const currentButton = buttons[i];
+
+    // to pass an argument to an eventListener function, we use .bind(null,
+    // arg1, arg2, ...)
+    currentButton.addEventListener('click',
+        buttonFunction.bind(null, currentButton));
+  }
+}
+
+/**
+ * Gets the rock, paper, and scissors buttons
+ * @return {Array} An array containing the rock, paper, and scissors buttons
+ */
+function getButtons() {
+  const buttons = [];
+  buttons.push(document.querySelector(`button[id="rock"]`));
+  buttons.push(document.querySelector(`button[id="paper"]`));
+  buttons.push(document.querySelector(`button[id="scissors"]`));
+
+  return buttons;
+}
+
+/**
+ * Adds functionality to a button, determining the winner, updating the results
+ * and score
+ * @param {Button} button
+ */
+function buttonFunction(button) {
+  const winner = playRound(button.id, computerPlay());
+  appendToResults(winner);
+
+  if (winner === 'player') {
+    playerScore++;
+  } else if (winner === 'computer') {
+    computerScore++;
+  }
+
+  updateScore();
+}
+
+/**
+ * Appends the results of a round to the results div
+ * @param {string} winner The winner of a given round (computer, player, or
+ * draw)
+ */
+function appendToResults(winner) {
+  const resultsDiv = document.querySelector('#results');
+  const winnerDiv = document.createElement('p');
+  winnerDiv.textContent = winner;
+
+  resultsDiv.appendChild(winnerDiv);
+}
+
+/**
+ * Updates the score
+ */
+function updateScore() {
+  const playerScoreDiv = document.querySelector('#player-score');
+  playerScoreDiv.textContent = `player: ${playerScore}`;
+  const computerScoreDiv = document.querySelector('#computer-score');
+  computerScoreDiv.textContent = `computer: ${computerScore}`;
+
+  if (playerScore == 5 || computerScore == 5) {
+    disableButtons();
+  }
+}
+
+/**
+ * Disables the rock, paper, and scissors buttons
+ */
+function disableButtons() {
+  const buttons = getButtons();
+
+  for (let i = 0; i < buttons.length; i++) {
+    const currentButton = buttons[i];
+    currentButton.setAttribute('disabled', true);
+  }
+}
+
 /**
  * Generates a random rock-paper-scissors hand
  * @return {string} A random rock-paper-scissors hand
@@ -15,13 +106,6 @@ function computerPlay() {
  * @return {string} The winner of the round (player, computer, or draw)
  */
 function playRound(playerSelection, computerSelection) {
-  if (!isValidHand(playerSelection)) {
-    return `${playerSelection} is an invalid hand`;
-  } else if (!isValidHand(computerSelection)) {
-    return `${computerSelection} is an invalid hand`;
-  }
-
-  playerSelection = playerSelection.toLowerCase();
   if (playerSelection === computerSelection) {
     return 'draw';
   }
@@ -45,20 +129,6 @@ function playRound(playerSelection, computerSelection) {
       } else {
         return 'computer';
       }
-  }
-}
-
-/**
- * Determines if a given rock-paper-scissors hand is valid
- * @param {string} hand The hand to test
- * @return {boolean} True if the hand is valid, false otherwise
- */
-function isValidHand(hand) {
-  const validHands = ['rock', 'paper', 'scissors'];
-  if (validHands.includes(hand.toLowerCase())) {
-    return true;
-  } else {
-    return false;
   }
 }
 
@@ -100,42 +170,3 @@ function determineWinnerScissors(computerSelection) {
     return false;
   }
 }
-
-/**
- * Plays 5 rounds of rock-paper-scissors
- */
-function game() {
-  let roundsPlayed = 0;
-  let playerScore = 0;
-  let computerScore = 0;
-
-  while (roundsPlayed < 5) {
-    const playerHand = prompt('rock, paper, or scissors?');
-    const computerHand = computerPlay();
-    const result = playRound(playerHand, computerHand);
-
-    if (result === 'player') {
-      console.log(`${playerHand} beats ${computerHand}! You won this round!`);
-      playerScore++;
-    } else if (result === 'computer') {
-      console.log(`${computerHand} beats ${playerHand}! You lost this round!`);
-      computerScore++;
-    } else {
-      console.log('Round draw!');
-    }
-
-    roundsPlayed++;
-  }
-
-  if (playerScore > computerScore) {
-    console.log('You won the game!');
-  } else if (playerScore < computerScore) {
-    console.log('You lost the game!');
-  } else {
-    console.log('Game draw!');
-  }
-}
-
-const rockButton = document.querySelector(`button[id="rock"]`);
-const paperButton = document.querySelector(`button[id="paper"]`);
-const scissorsButton = document.querySelector(`button[id="scissors"]`);
