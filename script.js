@@ -135,3 +135,7 @@ function game() {
     console.log('Game draw!');
   }
 }
+
+const rockButton = document.querySelector(`button[id="rock"]`);
+const paperButton = document.querySelector(`button[id="paper"]`);
+const scissorsButton = document.querySelector(`button[id="scissors"]`);
